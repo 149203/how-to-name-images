@@ -1,0 +1,136 @@
+.bg-checker-dark {
+   background-color: $gray-900;
+   background-image: linear-gradient(
+         45deg,
+         $black 25%,
+         transparent 25%,
+         transparent 75%,
+         $black 75%,
+         $black
+      ),
+      linear-gradient(
+         45deg,
+         $black 25%,
+         transparent 25%,
+         transparent 75%,
+         $black 75%,
+         $black
+      );
+   background-size: 20px 20px;
+   background-position: 0 0, 10px 10px;
+}
+
+.navbar-brand {
+   margin-right: 0;
+}
+
+.nav-link.active,
+.nav-link:hover {
+   text-decoration: underline;
+}
+
+.hover-underline:hover {
+   text-decoration: underline !important;
+}
+
+.fw-black {
+   font-weight: $font-weight-black;
+}
+
+.lh-md {
+   line-height: 1.3;
+}
+
+// Once the user hovers over the .video-spotlight class, keep the hovered state
+// https://stackoverflow.com/a/19962658/6305196
+@keyframes hoverAndStay {
+   0% {
+      // normal styles
+      filter: brightness(70%);
+   }
+   100% {
+      // hover styles
+      filter: brightness(100%);
+   }
+}
+
+.video-spotlight {
+   animation-name: hoverAndStay;
+   animation-duration: 200ms;
+   animation-fill-mode: backwards;
+   animation-play-state: paused;
+}
+
+.video-spotlight:active,
+.video-spotlight:focus,
+.video-spotlight:hover {
+   animation-fill-mode: forwards;
+   animation-play-state: running;
+}
+
+.cursor-pointer {
+   cursor: pointer;
+}
+
+.muted-callout {
+   color: $gray-800;
+   font-weight: $font-weight-bold;
+}
+
+.video-shortcode {
+   overflow: hidden;
+   padding-top: 56.25%;
+   position: relative;
+}
+.video-shortcode iframe {
+   border: 0;
+   height: 100%;
+   left: 0;
+   position: absolute;
+   top: 0;
+   width: 100%;
+}
+
+.article-content h1 {
+   margin-top: map-get($spacers, 9);
+   margin-bottom: map-get($spacers, 5);
+}
+
+.article-content h2 {
+   margin-top: map-get($spacers, 8);
+   margin-bottom: map-get($spacers, 5);
+}
+
+.article-content h3 {
+   margin-top: map-get($spacers, 7);
+   margin-bottom: map-get($spacers, 5);
+}
+
+.article-content h4 {
+   margin-top: map-get($spacers, 6);
+   margin-bottom: map-get($spacers, 5);
+}
+
+.article-content h5 {
+   margin-top: map-get($spacers, 5);
+   margin-bottom: map-get($spacers, 4);
+}
+
+.article-content h6 {
+   margin-top: map-get($spacers, 4);
+   margin-bottom: map-get($spacers, 4);
+}
+
+.article-content li {
+   margin-bottom: map-get($spacers, 3);
+}
+
+.form-check input:hover,
+.form-check label:hover {
+   cursor: pointer;
+}
+
+.disabled {
+   cursor: not-allowed !important;
+   pointer-events: auto !important;
+}
