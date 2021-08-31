@@ -4,6 +4,7 @@ module.exports = {
       title: "How To Name Images",
    },
    plugins: [
+      `gatsby-plugin-preact`,
       {
          resolve: `gatsby-plugin-sass`,
          options: {

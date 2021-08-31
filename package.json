@@ -17,7 +17,10 @@
   "dependencies": {
     "bootstrap": "^5.1.0",
     "gatsby": "^3.12.1",
+    "gatsby-plugin-preact": "^5.13.0",
     "gatsby-plugin-sass": "^4.13.0",
+    "preact": "^10.5.14",
+    "preact-render-to-string": "^5.1.19",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "sass": "^1.38.2"
