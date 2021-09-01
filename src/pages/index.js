@@ -1,22 +1,14 @@
 import * as React from "react";
 import { useState } from "react";
 import Intro from "../components/intro";
-import toNormWord from "../utils/toNormWord";
-import stopWords from "../utils/stopWords";
-import toFormattedWord from "../utils/toFormattedWord";
 import Output from "../components/output";
 import PlaceholderInfoBox from "../components/placeholderInfoBox";
-import Pluralize from "pluralize";
+import getFilename from "../utils/getFilename";
 
 export default function IndexPage() {
-   const [KeywordsInput, setKeywordsInput] = useState({
-      value: "",
-      isValid: true,
-   });
-   const [DescInput, setDescInput] = useState({
-      value: "",
-      isValid: true,
-   });
+   const initialState = { value: "", isValid: true };
+   const [KeywordsInput, setKeywordsInput] = useState({ ...initialState });
+   const [DescInput, setDescInput] = useState({ ...initialState });
    const [filename, setFilename] = useState("");
 
    const checkIsValidKeywords = (keywordsInput) => {
@@ -25,44 +17,6 @@ export default function IndexPage() {
       return keywordsInput.trim().split(" ").length <= 4;
    };
 
-   const getFilename = (keyWordsValue, DescValue) => {
-      const keyWords = keyWordsValue
-         .split(" ")
-         .map((word) => {
-            return toNormWord(word);
-         })
-         .map((word) => {
-            return toFormattedWord(word);
-         });
-
-      const descWords = DescValue.split(" ")
-         .map((word) => {
-            return toNormWord(word);
-         })
-         .filter((word) => {
-            return stopWords.includes(word) === false;
-         })
-         .map((word) => {
-            return toFormattedWord(word);
-         })
-         .reduce((prevArr, currWord) => {
-            const singularizedWord = Pluralize.singular(currWord);
-            const pluralizedWord = Pluralize.plural(currWord);
-            const allPrevWords = [...prevArr, ...keyWords];
-            // if the currWord is already in the arr in a singular or plural form, skip it
-            if (
-               allPrevWords.includes(singularizedWord) ||
-               allPrevWords.includes(pluralizedWord)
-            )
-               return prevArr;
-            // else, add it to the arr
-            else return [...prevArr, currWord];
-         }, []);
-
-      const formattedGoWords = [...keyWords, ...descWords];
-      const uniqueWords = [...new Set(formattedGoWords)];
-      return uniqueWords.filter((word) => word !== "").join("-");
-   };
    const handleKeywordsInput = (value) => {
       setKeywordsInput((state) => ({
          ...state,
@@ -108,6 +62,12 @@ export default function IndexPage() {
       )
          return true;
       return false;
+   };
+
+   const clearFields = () => {
+      setKeywordsInput({ ...initialState });
+      setDescInput({ ...initialState });
+      window.scrollTo({ top: 0, behavior: "smooth" });
    };
 
    return (
@@ -181,6 +141,15 @@ export default function IndexPage() {
                   ) : (
                      <PlaceholderInfoBox />
                   )}
+                  <button
+                     type="button"
+                     class="btn btn-blue mt-6 mb-14 float-end"
+                     onClick={(e) => {
+                        clearFields();
+                     }}
+                  >
+                     Clear fields
+                  </button>
                </div>
             </div>
          </div>
