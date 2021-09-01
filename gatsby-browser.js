@@ -1,5 +1,5 @@
 // import preact devtools https://preactjs.github.io/preact-devtools/
-// import "preact/debug";
+import "preact/debug";
 
 // import global style
 import "./src/style/index.scss";
