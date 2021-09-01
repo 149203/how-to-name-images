@@ -1,8 +1,8 @@
 // This is a list of stop words for SEO purposes. It is not as restrictive as other stop words lists.
 // It is taken from Yoast's SEO config file: https://github.com/Yoast/YoastSEO.js/blob/develop/src/config/stopwords.js
 // Remember to lowercase before comparing against this list.
-let stopWords;
-module.exports = stopWords = [
+
+const stopWords = [
    "a",
    "about",
    "above",
@@ -157,3 +157,5 @@ module.exports = stopWords = [
    "yourself",
    "yourselves",
 ];
+
+export default stopWords;
