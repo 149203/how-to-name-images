@@ -24,20 +24,16 @@ export default function IndexPage() {
    const getFilename = (keyWordsValue, DescValue) => {
       const keyWords = keyWordsValue.split(" ");
       const descWords = DescValue.split(" ");
-      const allWords = [...keyWords, ...descWords];
-
-      const normWords = allWords.map((word) => {
-         console.log(toNormWord(word));
-         return toNormWord(word);
-      });
-
-      const normGoWords = normWords.filter((word) => {
-         return stopWords.includes(word) === false;
-      });
-
-      const formattedGoWords = normGoWords.map((word) => {
-         return toFormattedWord(word);
-      });
+      const formattedGoWords = [...keyWords, ...descWords]
+         .map((word) => {
+            return toNormWord(word);
+         })
+         .filter((word) => {
+            return stopWords.includes(word) === false;
+         })
+         .map((word) => {
+            return toFormattedWord(word);
+         });
 
       const uniqueWords = [...new Set(formattedGoWords)];
       return uniqueWords.filter((word) => word !== "").join("-");
