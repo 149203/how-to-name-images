@@ -75,7 +75,7 @@ export default function IndexPage() {
          <title>How To Name Images</title>
          <div className="container mt-4">
             <div className="row gx-6">
-               <div className="col-xl-6 offset-xl-3">
+               <div className="col-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2 col-xl-6 offset-xl-3">
                   <Intro />
 
                   <label htmlFor="keywords" className="form-label mb-1 fw-bold">
