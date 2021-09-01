@@ -3,8 +3,8 @@ import * as React from "react";
 export default function Intro() {
    return (
       <>
-         <h1 className="mb-5 fs-46 fs-sm-46 fs-md-52">How To Name Images</h1>
-         <p>
+         <h1 className="fs-46 fs-sm-46 fs-md-52">How To Name Images</h1>
+         <p className="mb-6">
             Name web images effectively and provide emotive alt text. (
             <a
                href="https://seosherpa.com/image-seo/"

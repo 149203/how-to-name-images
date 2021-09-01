@@ -23,7 +23,7 @@ export default function Output({ filename, altText }) {
             className="mb-6 py-2 px-4"
             value={altText}
          ></textarea>
-         <p className="fw-bold mb-1">Your title</p>
+         <p className="fw-bold mb-1">Title</p>
          <p className="text-red fw-bold">Don't include a title!</p>
       </>
    );
