@@ -4,15 +4,18 @@ import Intro from "../components/intro";
 import toNormWord from "../utils/toNormWord";
 import stopWords from "../utils/stopWords";
 import toFormattedWord from "../utils/toFormattedWord";
+import Output from "../components/output";
+import PlaceholderInfoBox from "../components/placeholderInfoBox";
+import Pluralize from "pluralize";
 
 export default function IndexPage() {
    const [KeywordsInput, setKeywordsInput] = useState({
       value: "",
-      isValid: false,
+      isValid: true,
    });
    const [DescInput, setDescInput] = useState({
       value: "",
-      isValid: false,
+      isValid: true,
    });
    const [filename, setFilename] = useState("");
 
@@ -21,10 +24,18 @@ export default function IndexPage() {
       // no more than 4 separate words allowed
       return keywordsInput.trim().split(" ").length <= 4;
    };
+
    const getFilename = (keyWordsValue, DescValue) => {
-      const keyWords = keyWordsValue.split(" ");
-      const descWords = DescValue.split(" ");
-      const formattedGoWords = [...keyWords, ...descWords]
+      const keyWords = keyWordsValue
+         .split(" ")
+         .map((word) => {
+            return toNormWord(word);
+         })
+         .map((word) => {
+            return toFormattedWord(word);
+         });
+
+      const descWords = DescValue.split(" ")
          .map((word) => {
             return toNormWord(word);
          })
@@ -33,8 +44,22 @@ export default function IndexPage() {
          })
          .map((word) => {
             return toFormattedWord(word);
-         });
+         })
+         .reduce((prevArr, currWord) => {
+            const singularizedWord = Pluralize.singular(currWord);
+            const pluralizedWord = Pluralize.plural(currWord);
+            const allPrevWords = [...prevArr, ...keyWords];
+            // if the currWord is already in the arr in a singular or plural form, skip it
+            if (
+               allPrevWords.includes(singularizedWord) ||
+               allPrevWords.includes(pluralizedWord)
+            )
+               return prevArr;
+            // else, add it to the arr
+            else return [...prevArr, currWord];
+         }, []);
 
+      const formattedGoWords = [...keyWords, ...descWords];
       const uniqueWords = [...new Set(formattedGoWords)];
       return uniqueWords.filter((word) => word !== "").join("-");
    };
@@ -46,13 +71,43 @@ export default function IndexPage() {
       }));
       setFilename(getFilename(value, DescInput.value));
    };
+   const checkDescIsValid = (value) => {
+      return value.length <= 80;
+   };
    const handleDescInput = (value) => {
       setDescInput((state) => ({
          ...state,
          value,
-         isValid: true,
+         isValid: checkDescIsValid(value),
       }));
       setFilename(getFilename(KeywordsInput.value, value));
+   };
+
+   const getCharCountCss = () => {
+      const count = DescInput.value.length;
+      if (count > 80) return "text-red fw-bold";
+      return "";
+   };
+
+   const getKeywordsInputCss = () => {
+      if (KeywordsInput.isValid === false) return "is-invalid";
+      return "";
+   };
+
+   const getDescInputCss = () => {
+      if (DescInput.isValid === false) return "is-invalid";
+      return "";
+   };
+
+   const checkIsFormComplete = () => {
+      if (
+         KeywordsInput.isValid &&
+         DescInput.isValid &&
+         KeywordsInput.value !== "" &&
+         DescInput.value !== ""
+      )
+         return true;
+      return false;
    };
 
    return (
@@ -76,10 +131,17 @@ export default function IndexPage() {
                   <input
                      type="text"
                      value={KeywordsInput.value}
-                     className={`form-control mb-6`}
+                     className={`form-control ${getKeywordsInputCss()}`}
                      id="keywords"
                      onChange={(e) => handleKeywordsInput(e.target.value)}
                   />
+                  {KeywordsInput.isValid === false && (
+                     <p className={`float-end text-red fw-bold`}>
+                        Please use no more than 4 keywords.
+                     </p>
+                  )}
+
+                  <div className="clearfix mb-6"></div>
                   <label
                      htmlFor="description"
                      className="form-label mb-1 fw-bold"
@@ -106,34 +168,19 @@ export default function IndexPage() {
                   <input
                      type="text"
                      value={DescInput.value}
-                     className={`form-control`}
+                     className={`form-control ${getDescInputCss()}`}
                      id="description"
                      onChange={(e) => handleDescInput(e.target.value)}
                   />
-                  <p className="float-end">0/80</p>
+                  <p className={`float-end ${getCharCountCss()}`}>
+                     {DescInput.value.length}/80
+                  </p>
                   <div className="clearfix mb-6"></div>
-                  <label className="form-label mb-1 fw-bold" htmlFor="filename">
-                     Your image filename
-                  </label>
-                  <textarea
-                     readOnly
-                     rows="2"
-                     id="filename"
-                     className="mb-6"
-                     value={filename}
-                  ></textarea>
-                  <label className="form-label mb-1 fw-bold" htmlFor="altText">
-                     Your alt text
-                  </label>
-                  <textarea
-                     readOnly
-                     rows="2"
-                     id="altText"
-                     className="mb-6"
-                     value={DescInput.value}
-                  ></textarea>
-                  <p className="fw-bold mb-1">Your title</p>
-                  <p className="text-red fw-bold">Don't include a title!</p>
+                  {checkIsFormComplete() ? (
+                     <Output filename={filename} altText={DescInput.value} />
+                  ) : (
+                     <PlaceholderInfoBox />
+                  )}
                </div>
             </div>
          </div>

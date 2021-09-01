@@ -5,8 +5,7 @@ export default function Intro() {
       <>
          <h1 className="mb-5">How To Name Images</h1>
          <p>
-            We should name our web images effectively and provide emotive alt
-            text. (
+            Name web images effectively and provide emotive alt text. (
             <a
                href="https://seosherpa.com/image-seo/"
                target="_blank"
